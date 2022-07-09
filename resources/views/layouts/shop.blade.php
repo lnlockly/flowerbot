@@ -65,6 +65,11 @@
                         <span class="menu-title">Мои заказы</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('statistic.flowers') }}">
+                        <span class="menu-title">Мои цветы</span>
+                    </a>
+                </li>
                 @if(count(auth()->user()->shops) < 2)
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('shop.create') }}">
@@ -79,17 +84,12 @@
             <div class="content-wrapper">
                 @yield('content')
             </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:partials/_footer.html -->
-            <footer class="footer">
-
-            </footer>
             <!-- partial -->
         </div>
         <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
-    </div>
+
     <!-- container-scroller -->
     @laravelViewsScripts
     <!-- plugins:js -->
@@ -106,51 +106,7 @@
     <!-- End custom js for this page-->
     <!-- footer -->
     <footer>
-        <div class="wraper">
-            <div class="footer-block">
-            </div>
-            <div class="footer-links">
-                <div class="footer-links-logo">
 
-                </div>
-                <div class="footer-link1">
-                    <div class="footer-padding"><h1>Chipbot</h1></div>
-                    <ul>
-                    <li><a href="#">О компании</a></li>
-                    <li><a href="#">Контакты</a></li>
-                    <li><a href="#">Новости</a></li>
-                    <li><a href="#">Пользовательское соглашение</a></li>
-                    </ul>
-                </div>
-                <div class="footer-link2">
-                    <div class="footer-padding"><h1>Услуги</h1></div>
-                    <div class="footer-ul"><ul>
-                    <li><a href="#">Telegram магазина под ключ</a></li>
-                    <li><a href="#">Интеграция интернет-магазина с telegram</a></li>
-                    </ul></div>
-                </div>
-                <div class="footer-link3">
-                    <div class="footer-padding"><h1>Помощь</h1></div>
-                    <div class="footer-ul"><ul>
-                    <li><a href="#">База знаний</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    </ul></div>
-                </div>
-                <div class="footer-link4">
-                    <div class="footer-padding"><h1>Способы оплаты</h1></div>
-                    <div class="footer-ul">
-
-                            <a href="#">Подробнее о способах оплаты</a>
-                            <ul>
-                            <li><h6>ИП Иванцов А.А.</h6></li>
-                            <li><h6>ИНН: 616806543687</h6></li>
-                            <li><h6>ОГРНИП:321619600227803</h6></li>
-                            <li><h6>ОКПО: 2012163842</h6></li>
-                            </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </footer>
     <x:notify-messages />
     @notifyJs

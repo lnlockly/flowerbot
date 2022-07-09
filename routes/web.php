@@ -45,9 +45,15 @@ Route::middleware('if_shop')->group(function () {
 
 	Route::get('/catalog/create', 'CatalogController@create')->name('catalog.create');
 
+    Route::get('/flower/create', 'FlowerController@create')->name('flower.create');
+
 	Route::get('/statistic/users', function () {
         return view('shop.statistic.clients');
     })->name('statistic.users');
+
+    Route::get('/statistic/flowers', function() {
+        return view('shop.statistic.flowers');
+    })->name('statistic.flowers');
 
 	Route::get('/statistic/catalogs', function () {
 		return view('shop.statistic.catalogs');
@@ -61,11 +67,11 @@ Route::middleware('if_shop')->group(function () {
 
 	Route::post('/catalogs/save', 'CatalogController@store')->name('catalog.save');
 
+    Route::post('/flowers/save', 'FlowerController@store')->name('flower.save');
+
 	Route::post('/catalogs/import', 'CatalogController@import')->name('catalog.import');
 
 	Route::post('/bot/{token}/webhook', 'ShopController@bot')->name('shop.bot');
-
-    Route::
 
 	Route::get('/getAdmin', function() {
 		$user = User::find(auth()->user()->id);

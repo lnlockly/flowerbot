@@ -31,12 +31,8 @@ class CatalogController extends Controller
 		$catalog->shop_id = auth()->user()->current_shop->id;
 
 		$catalog->save();
-        notify()->success('Товар успешно добавлен!', '');
+        notify()->success('Букет успешно добавлен!', '');
 		return redirect()->route('statistic.catalogs');
 	}
 
-    public function import(Request $request) {
-    	Excel::import(new CatalogsImport, storage_path('app/public/table.xlsx'));
-    	return redirect()->back();
-    }
 }

@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('telegram_id')->default('0');
             $table->integer('current_shop')->nullable();
             $table->boolean('is_admin')->default(false);
+            $table->boolean('is_flower')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

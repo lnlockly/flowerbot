@@ -731,9 +731,11 @@ class BotController extends Controller
 
     public function mailing(Request $request)
     {
-        $users = User::all();
+        $users = Client::all();
 
-        $bot = new Api('5252385740:AAHjvtk3NIaM_FRV_Tdv9eUmkL4OxbtqA-0');
+        $token = auth()->user()->current_shop->token;
+
+        $bot = new Api($token);
 
         foreach ($users as $user) {
             $bot->sendMessage([

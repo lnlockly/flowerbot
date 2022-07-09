@@ -52,4 +52,8 @@ class Shop extends Model
     public function orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function deliveries() {
+        return $this->hasMany(Delivery::class);
+    }
 }
