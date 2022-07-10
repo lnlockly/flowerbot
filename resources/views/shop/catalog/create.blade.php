@@ -1,55 +1,27 @@
 @extends('layouts.shop')
 @section('content')
-
 <div class="grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Добавить товар</h4>
-            <form class="form-inline" method="post" action="{{ route('catalog.save'
-            ) }}">
-                @csrf
-                <div class="form-group row">
-                    <label for="name" >Категория товара, услуги</label>
-                    <div class="col-sm-5 ">
-                        <input type="text" class="form-control" name="section1" id="section1">
+            <div class="flower-choice">
+                <div class="col-sm-2">
+                    <label for="inputNumberFlower">Кол-во</label>
+                    <input type="number" class="form-control" id="inputNumberFlower">
+                </div> 
+                <div class="col-sm-2">   
+                    <div class="Flower">
+                        <label class="label-flower" for="input">Выбрать цветок</label>
+                        <select id="flower">       
+                            <option value="Flower1">Одуванчик</option>
+                            <option value="Flower2">Ландыш</option>
+                            <option value="Flower3">Тюльпан</option>
+                            <option value="Flower4">Роза</option>
+                            <option value="Flower5">Астра</option>
+                        </select>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="section1">Название товара,услуги</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" name="name" id="name">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="description">Описание</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="description" name="description">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="url">Ссылка на товар, услугу</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="url" name="url">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="img">Ссылка на изображение товара, услуги</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="img" name="img">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="price">Цена товара</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="price" name="price">
-                    </div>
-                </div>
-                <div class="button-css"><button type="submit" class="btn btn-primary me-2">Добавить товар</button>
-                    <button type="button" class="btn btn-outline-dark">Загрузить товары
-                        <div class="load-img"><img src="{{ asset('/images/load.svg') }}" class="me-2" alt="load" /></div>
-                </button>
-                </div>
-            </form>
+                </div> 
+                <a class="addFlower" href="#"><img src="{{ asset('/images/add-circle.svg') }}" /></a>
+            </div>
         </div>
     </div>
 </div>

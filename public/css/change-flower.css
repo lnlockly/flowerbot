@@ -1,0 +1,26 @@
+.flower-choice{
+  display: flex;
+  padding-left: 50px;
+}
+.col-sm-2{
+  padding-left: 30px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+#flower{
+  font-size:x-large;
+  padding-top: 2px;
+}
+.Flower{
+  padding-top: 10px;
+}
+.addFlower{
+  display: flex;
+  padding-left: 40px;
+  padding-top: 24px;
+  height: 70px;
+  width: 70px;
+}
+.label-flower{
+  
+}

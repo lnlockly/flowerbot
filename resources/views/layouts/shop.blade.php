@@ -15,6 +15,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/change-flower.css') }}">
     <!-- endinject -->
     @laravelViewsStyles
     @notifyCss
