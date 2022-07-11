@@ -18,7 +18,7 @@ class BotController extends Controller
     {
         $bot = new Api($token);
 
-        $updates = $bot->getWebhookUpdates();
+        $updates = $bot->getWebhookUpdate();
 
         $message = last($updates);
 
@@ -132,6 +132,9 @@ class BotController extends Controller
                 case 'Доставка':
                     $this->sendDelivery($bot, $client_db, $chat_id, false);
                     break;
+                case 'Статистика':
+                    $this->sendStatistic($bot, $client_db, $chat_id);
+                    break;
             }
         }
     }
@@ -205,7 +208,6 @@ class BotController extends Controller
     {
         $text = "<a href='" . $product->img . "'>" . $product->name . "</a>" . "\n" .
         $product->description . "\n" .
-        $product->url . "\n" .
         'Цена:' . $product->price . $shop->currency;
 
         return $text;
@@ -315,7 +317,7 @@ class BotController extends Controller
     private function sendStartMessage($bot, $shop, $chat_id)
     {
         $data = [
-            ['Товары', 'Корзина'], ['Главное меню'], ['Настройки'],
+            ['Букеты', 'Корзина'], ['Главное меню'], ['Настройки'],
         ];
         $keyboard = $this->makeKeyboard($data);
 
@@ -355,7 +357,7 @@ class BotController extends Controller
 
         $bot->sendMessage([
             'chat_id' => $chat_id,
-            'text' => 'Выберите товары',
+            'text' => 'Букеты:',
             'reply_markup' => $keyboard,
         ]);
 
@@ -410,7 +412,7 @@ class BotController extends Controller
             [Keyboard::inlineButton(['callback_data' => 'back' . $back, 'text' => '◀️']),
                 Keyboard::inlineButton(['callback_data' => '1', 'text' => $callback_message + 1 . '/' . $cart->count()]),
                 Keyboard::inlineButton(['callback_data' => 'next' . $next, 'text' => '▶️'])],
-            [Keyboard::inlineButton(['callback_data' => 'newOrder' . $next, 'text' => 'Заказать товары'])],
+            [Keyboard::inlineButton(['callback_data' => 'newOrder' . $next, 'text' => 'Заказать букет (ы)'])],
         ];
 
         $keyboard = $this->makeInlineKeyboard($data);
@@ -570,7 +572,7 @@ class BotController extends Controller
             [Keyboard::inlineButton(['callback_data' => 'back' . $back, 'text' => '◀️']),
                 Keyboard::inlineButton(['callback_data' => '1', 'text' => '1/' . $cart->count()]),
                 Keyboard::inlineButton(['callback_data' => 'next' . $next, 'text' => '▶️'])],
-            [Keyboard::inlineButton(['callback_data' => 'newOrder', 'text' => 'Заказать товары'])],
+            [Keyboard::inlineButton(['callback_data' => 'newOrder', 'text' => 'Заказать букет (ы)'])],
         ];
 
         $keyboard = $this->makeInlineKeyboard($data);
@@ -661,7 +663,7 @@ class BotController extends Controller
         "Получатель: " . $client->first_name . "\n" .
         "Телефон: " . $client->phone . "\n" .
         "Адрес доставки: " . $client->address . "\n \n" .
-        "Товары: \n" .
+        "Букеты: \n" .
         $products . "\n" .
         "Доставка: " . $client->delivery;
 
@@ -701,7 +703,7 @@ class BotController extends Controller
         "Получатель: " . $client->first_name . "\n" .
         "Телефон: " . $client->phone . "\n" .
         "Адрес доставки: " . $client->address . "\n \n" .
-        "Товары: \n" .
+        "Букеты: \n" .
         $products . "\n" .
         "Доставка: " . $client->delivery;
 
@@ -727,6 +729,18 @@ class BotController extends Controller
 
         }
 
+    }
+
+    private function sendStatistic($bot, $client_db, $chat_id) {
+        if (!$client_db->is_notify) {
+            return 0;
+        }
+        $text = 0;
+        $bot->sendMessage([
+            'chat_id' => $chat_id,
+            'parse_mode' => 'HTML',
+            'text' => $text,
+        ]);
     }
 
     public function mailing(Request $request)

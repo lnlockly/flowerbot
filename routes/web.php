@@ -23,12 +23,6 @@ Route::post('/{token}/webhook', 'BotController@index');
 
 Route::get('/getUpdates', 'BotController@longpull');
 
-Route::get('/telegram/callback', 'Auth\TelegramAuth@callback');
-
-Route::get('/test', function() {
-	Auth::login(User::where(['id' => 1])->first());
-});
-
 
 Route::middleware('if_shop')->group(function () {
 	Route::get('/create', 'ShopController@index')->name('shop.create');
@@ -47,10 +41,6 @@ Route::middleware('if_shop')->group(function () {
 
     Route::get('/flower/create', 'FlowerController@create')->name('flower.create');
 
-	Route::get('/statistic/users', function () {
-        return view('shop.statistic.clients');
-    })->name('statistic.users');
-
     Route::get('/statistic/flowers', function() {
         return view('shop.statistic.flowers');
     })->name('statistic.flowers');
@@ -65,9 +55,9 @@ Route::middleware('if_shop')->group(function () {
 
 	Route::post('/shop/save', 'ShopController@store')->name('shop.save');
 
-	Route::post('/catalogs/save', 'CatalogController@store')->name('catalog.save');
+	Route::post('/catalogs/save', 'CatalogController@store')->name('catalog.store');
 
-    Route::post('/flowers/save', 'FlowerController@store')->name('flower.save');
+    Route::post('/flowers/save', 'FlowerController@store')->name('flower.store');
 
 	Route::post('/catalogs/import', 'CatalogController@import')->name('catalog.import');
 
@@ -82,6 +72,13 @@ Route::middleware('if_shop')->group(function () {
 });
 
 Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'is_admin'], function(){
+    Route::get('/clients', function () {
+        return view('shop.statistic.clients');
+    })->name('statistic.users');
+    Route::post('/flowers/create', function() {
+        return view('shop.delivery.create');
+    })->name('delivery.create');
+    Route::post('/deliveries/save', 'DeliveryController@store')->name('delivery.store');
 	Route::get('/users', 'AdminController@users')->name('users');
 	Route::get('/mailing', function () {
 		return view('admin.mailing');

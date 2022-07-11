@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'telegram_id' => $faker->numberBetween(0, 1000000),
+        'name' => 'Admin',
         'current_shop' => null,
-        'is_admin' => true,
+        'role' => 'admin',
         'username' => $faker->userName,
-        'remember_token' => Str::random(10),
+        'remember_token' => null,
     ];
 });

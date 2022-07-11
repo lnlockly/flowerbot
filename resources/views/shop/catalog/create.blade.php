@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Добавить товар</h4>
-            <form class="form-inline" method="post" action="{{ route('catalog.save'
+            <form class="form-inline" method="post" action="{{ route('catalog.store'
             ) }}">
                 @csrf
                 <div class="form-group row">

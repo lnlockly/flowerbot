@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\AdminClientAction;
+use App\Actions\FlowerClientAction;
+use App\Actions\SendNotifyClientAction;
 use App\Client;
 use Illuminate\Database\Eloquent\Builder;
 use LaravelViews\Views\TableView;
@@ -16,7 +19,7 @@ class ClientsTableView extends TableView
      */
     public function headers(): array
     {
-        return ['Id', 'Имя', 'Username', 'Первое обращение', 'Последнее сообщение'];
+        return ['Id', 'Роль', 'Имя', 'Username', 'Первое обращение', 'Последнее сообщение'];
     }
 
     /**
@@ -28,6 +31,7 @@ class ClientsTableView extends TableView
     {
         return [
             $model->telegram_id,
+            ucfirst($model->role),
             $model->first_name . ' ' . $model->last_name,
             $model->username,
             $model->created_at,
@@ -42,5 +46,14 @@ class ClientsTableView extends TableView
     public function repository(): Builder
     {
         return Client::query()->where('shop_id', auth()->user()->current_shop->id);
+    }
+
+    protected function bulkActions()
+    {
+        return [
+            new AdminClientAction(),
+            new FlowerClientAction(),
+            new SendNotifyClientAction()
+        ];
     }
 }

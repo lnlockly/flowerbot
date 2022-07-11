@@ -24,6 +24,8 @@ class CreateClientsTable extends Migration
             $table->string('delivery')->nullable();
             $table->unsignedBigInteger('shop_id');
             $table->string('session_id')->nullable();
+            $table->string('role')->nullable();
+            $table->boolean('is_notify')->default(false);
             $table->foreign('shop_id')->references('id')->on('shops');
             $table->timestamps();
         });

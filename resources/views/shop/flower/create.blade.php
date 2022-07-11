@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Добавить товар</h4>
-                <form class="form-inline" method="post" action="{{ route('flower.save') }}">
+                <form class="form-inline" method="post" action="{{ route('flower.store') }}">
                     @csrf
                     <div class="form-group row">
                         <label for="name" >Название цветка</label>
