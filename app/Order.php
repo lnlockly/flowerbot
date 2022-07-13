@@ -41,4 +41,8 @@ class Order extends Model
     public function client() {
         return $this->belongsTo(Client::class);
     }
+
+    public function delivery() {
+        return $this->belongsTo(Delivery::class);
+    }
 }

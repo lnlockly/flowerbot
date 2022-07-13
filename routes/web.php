@@ -16,7 +16,7 @@ use App\User;
 */
 
 
-Auth::routes();
+//Auth::routes();
 
 Route::post('/{token}/webhook', 'BotController@index');
 
@@ -75,13 +75,47 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'is_admin'],
     Route::get('/clients', function () {
         return view('shop.statistic.clients');
     })->name('statistic.users');
-    Route::post('/flowers/create', function() {
+
+    Route::get('/cards', function() {
+        return view('shop.statistic.cards');
+    })->name('statistic.cards');
+
+    Route::get('/card/create', function() {
+        return view('shop.card.create');
+    })->name('card.create');
+
+    Route::post('/cards/save', 'CardController@store')->name('card.store');
+
+    Route::get('/deliveries', function() {
+        return view('shop.statistic.deliveries');
+    })->name('statistic.deliveries');
+
+    Route::get('/delivery/create', function() {
         return view('shop.delivery.create');
     })->name('delivery.create');
+
     Route::post('/deliveries/save', 'DeliveryController@store')->name('delivery.store');
-	Route::get('/users', 'AdminController@users')->name('users');
+
+	Route::get('/users', function() {
+        return view('admin.users');
+    })->name('users');
+
+    Route::get('/user/create', function() {
+        return view('admin.user.create');
+    })->name('user.create');
+
+    Route::post('/user/save', 'AdminController@store')->name('user.store');
+
 	Route::get('/mailing', function () {
 		return view('admin.mailing');
 	})->name('mailing.create');
+
 	Route::post('/mailing/save', 'BotController@mailing')->name('mailing.save');
 });
+
+
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('showLoginForm');
+
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+

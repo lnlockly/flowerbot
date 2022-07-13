@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
   <!-- endinject -->
+  @laravelViewsStyles
+  @notifyCss
 </head>
 <body>
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -31,7 +33,6 @@
               <a class="nav-link dropdown-toggle" href="{{ route('shop.switch') }}" data-bs-toggle="dropdown" id="shopsDropdown" style="margin-right:10px">
                 <div class="nav-username">{{ auth()->user()->current_shop->username }}</div>
               </a>
-              <div class="id-username">Ваш ID: {{ auth()->user()->id }}</div>
             @endif
           </li>
         </ul>
@@ -49,6 +50,21 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.users') }}">
               <span class="menu-title">Пользователи</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.statistic.users') }}">
+              <span class="menu-title">Мои клиенты</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.statistic.deliveries') }}">
+              <span class="menu-title">Доставка</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.statistic.cards') }}">
+              <span class="menu-title">Мои карты</span>
             </a>
           </li>
           <li class="nav-item">
@@ -75,7 +91,15 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-
+    @laravelViewsScripts
+    <x:notify-messages />
+    @notifyJs
+    <style>
+      .notify {
+        z-index: 1000000;
+        align-items: flex-end;
+      }
+    </style>
   <!-- plugins:js -->
   <script src="vendors/base/vendor.bundle.base.js"></script>
 

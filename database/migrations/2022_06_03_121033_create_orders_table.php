@@ -21,8 +21,10 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('catalog_id');
             $table->foreign('catalog_id')->references('id')->on('catalogs');
             $table->unsignedBigInteger('shop_id');
-            $table->foreign('shop_id')->references('id')->on('shops');       
-            $table->integer('amount');   
+            $table->foreign('shop_id')->references('id')->on('shops');
+            $table->unsignedBigInteger('delivery_id');
+            $table->foreign('delivery_id')->references('id')->on('deliveries');
+            $table->integer('amount');
             $table->timestamps();
         });
     }

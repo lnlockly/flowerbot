@@ -10,6 +10,7 @@ class DeliveryController extends Controller
     public function store(Request $request, Delivery $delivery) {
         $delivery->name = $request->name;
         $delivery->price = $request->price;
+        $delivery->shop_id = auth()->user()->current_shop->id;
 
         $delivery->save();
 

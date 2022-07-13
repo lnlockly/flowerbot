@@ -18,6 +18,7 @@ class FlowerController extends Controller
         ]);
 
         $flower->name = $request->name;
+        $flower->shop_id = auth()->user()->current_shop->id;
 
         $flower->save();
 

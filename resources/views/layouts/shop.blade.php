@@ -49,20 +49,10 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
+            <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('statistic.users') }}"><img src="{{ asset('/images/user.svg') }}" alt="user-icon"/>
-                        <span class="menu-title">Мои клиенты</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('statistic.catalogs') }}"><img src="{{ asset('/images/book.svg') }}" alt="shoping-icon"/>
-                        <span class="menu-title">Мои товары, услуги</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('statistic.orders') }}"><img src="{{ asset('/images/invo.svg') }}" alt="invoice-icon"/>
-                        <span class="menu-title">Мои заказы</span>
+                    <a class="nav-link" href="{{ route('statistic.catalogs') }}">
+                        <span class="menu-title">Мои букеты</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -70,13 +60,16 @@
                         <span class="menu-title">Мои цветы</span>
                     </a>
                 </li>
-                @if(count(auth()->user()->shops) < 2)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('statistic.orders') }}">
+                        <span class="menu-title">Мои заказы</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('shop.create') }}">
                         <span class="menu-title">Добавить магазин</span>
                     </a>
                 </li>
-                @endif
             </ul>
         </nav>
         <!-- partial -->

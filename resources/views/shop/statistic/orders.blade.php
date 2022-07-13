@@ -5,6 +5,7 @@
     <div class="card-body">
       <h4 class="card-title">Заказы</h4>
        @livewire('orders-table-view')
+
     </div>
   </div>
 </div>

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Card;
 use App\Cart;
 use App\Catalog;
 use App\Client;
+use App\Delivery;
 use App\Order;
 use App\Shop;
-use App\User;
+use App\Flower;
 use Illuminate\Http\Request;
 use Telegram\Bot\Api;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -43,14 +45,15 @@ class BotController extends Controller
 
     public function longpull()
     {
-        $bot = new Api('5416120430:AAHA6PK0jFGRjAH0XcnFLN8QCvPAKB67414');
+        $bot = new Api('5400048690:AAHPjrwhFzz1Ab3MxX8cikLK_FTMSrj9P2s');
 
         $response = $bot->getUpdates();
 
         $message = last($response);
 
 
-        $shop = auth()->user()->shop;
+        $shop = Shop::all()->first();
+
 
         if (isset($message['message'])) {
             $client = $message['message']['chat'];
@@ -108,7 +111,7 @@ class BotController extends Controller
                 case '/start':
                     $this->sendStartMessage($bot, $shop, $chat_id);
                     break;
-                case 'Товары':
+                case 'Букеты':
                     $this->sendCatalogs($bot, $shop, $chat_id);
                     break;
                 case 'Главное меню':
@@ -134,6 +137,12 @@ class BotController extends Controller
                     break;
                 case 'Статистика':
                     $this->sendStatistic($bot, $client_db, $chat_id);
+                    break;
+                case '/delFlower':
+                    $this->showFlower($bot, $client_db, $chat_id, $shop);
+                    break;
+                case '/addFlower':
+                    $this->addFlower($bot, $client_db, $chat_id);
                     break;
             }
         }
@@ -189,7 +198,12 @@ class BotController extends Controller
 
     private function sendDelivery($bot, $client, $chat_id, $next)
     {
-        $data = [['Заберу сам'], ['Доставить по адресу']];
+        $data = [];
+        $shop  = $client->shop;
+
+        foreach ($shop->deliveries as $delivery) {
+           array_push($data,[$delivery->name]);
+        }
         $reply_markup = $this->makeKeyboard($data);
 
         if ($next) {
@@ -206,9 +220,23 @@ class BotController extends Controller
 
     private function getText($product, $shop)
     {
-        $text = "<a href='" . $product->img . "'>" . $product->name . "</a>" . "\n" .
-        $product->description . "\n" .
-        'Цена:' . $product->price . $shop->currency;
+        $flowers = "";
+        $check = true;
+        foreach ($product->flowers as $flower) {
+            $flower_db = Flower::where('id', $flower['id'])->first();
+            if ($flower_db == null) $check = false;
+            $flower_count = $flower['count'];
+            $flowers .= "-  $flower_db->name, кол-во: $flower_count\n";
+        }
+        if ($check) {
+                $text = "<a href='" . $product->img . "'>" . $product->name . "</a>" . "\n" .
+                        $product->description . "\n" .
+                        $flowers . "\n" .
+                        'Цена:' . $product->price . $shop->currency;
+            }
+        else {
+            $text = "Данного букета нет в наличии";
+        }
 
         return $text;
     }
@@ -232,7 +260,14 @@ class BotController extends Controller
                 $client->update(['session_id' => null]);
             }
 
-        } else {
+        } elseif ($update_field == 'flower') {
+            Flower::create([
+                'name' => $update_message,
+                'shop_id' => $shop->id,
+            ]);
+            $client->update(['session_id' => null]);
+        }
+        else {
             if ($update_field != null) {
                 $client->update([$update_field => $update_message]);
             }
@@ -269,6 +304,10 @@ class BotController extends Controller
 
                 case 'delivery':
                     $success_message = "";
+                    break;
+
+                case 'flower':
+                    $success_message = "Цветок добавлен";
                     break;
             }
 
@@ -312,6 +351,10 @@ class BotController extends Controller
         } elseif (strpos($data, 'newOrder') === 0) {
             $this->newOrder($bot, $shop, $client, $chat_id);
         }
+        elseif (strpos($data, 'delFlower') === 0) {
+            $this->delFlower($bot, Client::where('username', $client['username'])->first(), $chat_id , ltrim($data, 'delFlower'));
+        }
+
     }
 
     private function sendStartMessage($bot, $shop, $chat_id)
@@ -689,7 +732,8 @@ class BotController extends Controller
         $client = Client::where('username', $client['username'])->first();
         $sum_all = 0;
         $products = "";
-
+        $delivery = Delivery::where('name', $client->delivery)->first();
+        dd($delivery);
         foreach ($client->cart as $key => $cart) {
             $i = $key + 1;
             $product = $cart->product;
@@ -698,16 +742,27 @@ class BotController extends Controller
             $products .= "$i) $product->name — $cart->amount шт. = $sum \n";
         }
 
+        $cards = Card::where('shop_id', $shop->id)->get();
+
+        $payments = "";
+
+        foreach ($cards as $card) {
+            $payments .= "$card->name \n";
+        }
+
         $text = "Заказ:  \n" .
-        "Общая сумма: " . $sum_all . $shop->currency . "\n" .
-        "Получатель: " . $client->first_name . "\n" .
-        "Телефон: " . $client->phone . "\n" .
-        "Адрес доставки: " . $client->address . "\n \n" .
-        "Букеты: \n" .
-        $products . "\n" .
-        "Доставка: " . $client->delivery;
+            "Общая сумма: " . $sum_all . $shop->currency . "+" . $delivery->price . $shop->currency . ("=" . ($sum_all + $delivery->price)) . $shop->currency . "\n" .
+            "Получатель: " . $client->first_name . "\n" .
+            "Телефон: " . $client->phone . "\n" .
+            "Адрес доставки: " . $client->address . "\n \n" .
+            "Букеты: \n" .
+            $products . "\n" .
+            "Доставка: " . $client->delivery. "\n \n" .
+            "Оплата на карту: \n" .
+            $payments;
 
         $data = [['Главное меню']];
+
         $keyboard = $this->makeKeyboard($data);
 
         $bot->sendMessage([
@@ -724,6 +779,7 @@ class BotController extends Controller
                 'shop_id' => $product->shop_id,
                 'catalog_id' => $product->catalog_id,
                 'amount' => $product->amount,
+                'delivery_id ' => $delivery->id
             ]);
             $product->delete();
 
@@ -731,17 +787,78 @@ class BotController extends Controller
 
     }
 
-    private function sendStatistic($bot, $client_db, $chat_id) {
+    private function sendStatistic($bot, $client_db, $chat_id, $shop) {
         if (!$client_db->is_notify) {
             return 0;
         }
-        $text = 0;
+        $orders = Order::where('shop_id', $shop->id)->get();
+
+        $text = "Статистика заказов: \n";
+
+        foreach ($orders as $order) {
+            $text .= "
+            Id: $order->id \n
+            Имя, Телефон, Адрес: $order->client->first_name  $order->client->phone   $order->client->address \n
+            Доставка: $order->client->delivery \n
+            Букет: $order->product->name \n
+            Кол-во: $order->amount \n
+            Цена (без учета доставки): $order->amount * $order->product->price";
+
+        }
+
         $bot->sendMessage([
             'chat_id' => $chat_id,
             'parse_mode' => 'HTML',
             'text' => $text,
         ]);
     }
+
+    private function addFlower($bot, $client_db, $chat_id) {
+        if ($client_db->role != 'admin' && $client_db->role != 'flower') {
+            return 0;
+        }
+        $client_db->update(['session_id' => 'flower']);
+
+        $bot->sendMessage([
+            'chat_id' => $chat_id,
+            'text' => 'Введите название цветка:'
+        ]);
+    }
+
+    private function showFlower($bot, $client_db, $chat_id, $shop) {
+        if ($client_db->role != 'admin' && $client_db->role != 'flower') {
+            return 0;
+        }
+        $data = [];
+
+        $flowers = Flower::where('shop_id', $shop->id)->get();
+
+        foreach ($flowers as $flower) {
+            array_push($data, [Keyboard::inlineButton(['callback_data' => 'delFlower' . $flower->id, 'text' => $flower->name])]);
+        }
+
+        $keyboard = $this->makeInlineKeyboard($data);
+        $bot->sendMessage([
+            'chat_id' => $chat_id,
+            'text' => 'Выберите цветок который хотите удалить:',
+            'reply_markup' => $keyboard,
+        ]);
+    }
+
+    private function delFlower($bot, $client_db, $chat_id, $flower_id) {
+        if ($client_db->role != 'admin' || $client_db->role != 'flower') {
+            return 0;
+        }
+
+        $flower = Flower::where('id', $flower_id)->first();
+        $flower->destroy();
+
+        $bot->sendMessage([
+            'chat_id' => $chat_id,
+            'text' => 'Цветок успешно удален'
+        ]);
+    }
+
 
     public function mailing(Request $request)
     {

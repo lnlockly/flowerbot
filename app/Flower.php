@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flower extends Model
 {
+
+    protected $guarded = [];
     public function catalog() {
         $this->belongsTo(Catalog::class);
     }

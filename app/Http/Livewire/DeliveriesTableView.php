@@ -2,18 +2,16 @@
 
 namespace App\Http\Livewire;
 
-
-use App\Actions\AdminUserAction;
-use App\User;
+use App\Delivery;
+use Illuminate\Database\Eloquent\Builder;
 use LaravelViews\Views\TableView;
 
-class UsersTableView extends TableView
+class DeliveriesTableView extends TableView
 {
-    /**
-     * Sets a model class to get the initial data
-     */
-    protected $model = User::class;
-
+    public function repository(): Builder
+    {
+        return Delivery::query()->where('shop_id', auth()->user()->current_shop->id);
+    }
     /**
      * Sets the headers of the table as you want to be displayed
      *
@@ -21,7 +19,7 @@ class UsersTableView extends TableView
      */
     public function headers(): array
     {
-        return ['Id', 'Логин', 'Роль'];
+        return ['Район', 'Цена'];
     }
 
     /**
@@ -32,16 +30,8 @@ class UsersTableView extends TableView
     public function row($model): array
     {
         return [
-            $model->id,
-            $model->username,
-            $model->role
-        ];
-    }
-
-    protected function bulkActions()
-    {
-        return [
-            new AdminUserAction(),
+            $model->name,
+            $model->price
         ];
     }
 }

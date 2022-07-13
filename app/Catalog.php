@@ -48,9 +48,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Catalog extends Model
 {
+    /**
+     * @var mixed
+     */
+    protected $casts = [
+        'flowers' => 'array'
+    ];
+
     protected $guarded = [];
 
-    public function flowers() {
-        $this->hasMany(Flower::class);
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Flower;
 use App\Http\Requests\StoreCatalogRequest;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -15,18 +16,21 @@ class CatalogController extends Controller
 	}
 
 	public function create() {
-		return view('shop/catalog/create');
+        $flowers = Flower::where('shop_id', auth()->user()->current_shop->id)->get();
+        if ($flowers == null) {
+            notify()->error('Сначала добавьте цветы', '');
+            return  redirect()->back();
+        }
+		return view('shop/catalog/create', ['flowers' => $flowers]);
 	}
 
-	public function store(StoreCatalogRequest $request) {
+	public function store(Request $request) {
 		$catalog = new Catalog;
 
-		$catalog->active = "1";
 		$catalog->section1 = $request->section1;
 		$catalog->name = $request->name;
-		$catalog->description = $request->description;
-		$catalog->url = $request->url;
 		$catalog->img = $request->img;
+        $catalog->flowers = $request->flowers;
 		$catalog->price = $request->price;
 		$catalog->shop_id = auth()->user()->current_shop->id;
 

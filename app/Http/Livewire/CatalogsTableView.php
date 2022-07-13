@@ -27,12 +27,10 @@ class CatalogsTableView extends TableView
     public function headers(): array
     {
         return [
-            Header::title('Раздел')->width('10%'),
-            Header::title('Название')->width('10%'),
-            Header::title('Описание')->width('25%'),
-            Header::title('Ссылка на товар')->width('25%'),
-            Header::title('Ссылка на изображение')->width('25%'),
-            Header::title('Цена')->width('5%'),
+            Header::title('Раздел'),
+            Header::title('Название'),
+            Header::title('Ссылка на изображение'),
+            Header::title('Цена'),
         ];
     }
 
@@ -46,8 +44,6 @@ class CatalogsTableView extends TableView
         return [
             UI::editable($model, 'section1'),
             UI::editable($model, 'name'),
-            UI::editable($model, 'description'),
-            UI::editable($model, 'url'),
             UI::editable($model, 'img'),
             UI::editable($model, 'price'),
         ];
