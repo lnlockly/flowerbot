@@ -136,7 +136,7 @@ class BotController extends Controller
                     $this->sendDelivery($bot, $client_db, $chat_id, false);
                     break;
                 case 'Статистика':
-                    $this->sendStatistic($bot, $client_db, $chat_id);
+                    $this->sendStatistic($bot, $client_db, $chat_id, $shop);
                     break;
                 case '/delFlower':
                     $this->showFlower($bot, $client_db, $chat_id, $shop);
@@ -441,6 +441,8 @@ class BotController extends Controller
         $keyboard = $this->makeInlineKeyboard($data);
 
         $text = $this->getText($product, $shop);
+
+        if ($text == "Данного букета нет в наличии") $data = [];
 
         $bot->sendMessage([
             'chat_id' => $chat_id,

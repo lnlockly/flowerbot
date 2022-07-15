@@ -29,7 +29,7 @@ class SendNotifyClientAction extends Action
     public function handle($selectedModels, View $view)
     {
         Client::whereKey($selectedModels)->update([
-            'is_notify' => 'true'
+            'is_notify' => true
         ]);
     }
 }
