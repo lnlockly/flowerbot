@@ -806,7 +806,7 @@ class BotController extends Controller
         foreach ($orders as $order) {
             $text .= "
             Id: $order->id \n
-            Имя, Телефон, Адрес: $order->client->first_name  $order->client->phone   $order->client->address \n
+            Имя, Телефон, Адрес: $order->client()->first_name  $order->client()->phone   $order->client()->address \n
             Доставка: $order->client->delivery \n
             Букет: $order->product->name \n
             Кол-во: $order->amount \n
