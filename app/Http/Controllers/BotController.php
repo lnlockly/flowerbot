@@ -771,8 +771,7 @@ class BotController extends Controller
                 'shop_id' => $product->shop_id,
                 'catalog_id' => $product->catalog_id,
                 'amount' => $product->amount,
-                'delivery_id' => $delivery->id
-                'delivery_id' => $delivery->id
+                'delivery_id' => $delivery->id,
             ]);
             $product->delete();
 
