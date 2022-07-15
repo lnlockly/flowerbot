@@ -856,7 +856,7 @@ class BotController extends Controller
         }
 
         $flower = Flower::where('id', $flower_id)->first();
-        $flower->destroy();
+        $flower->delete();
 
         $bot->sendMessage([
             'chat_id' => $chat_id,
