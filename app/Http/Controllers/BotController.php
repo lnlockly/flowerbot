@@ -851,7 +851,7 @@ class BotController extends Controller
 
     private function delFlower($bot, $client, $chat_id, $flower_id) {
         $client_db = Client::where('username', $client['username'])->first();
-        if ($client_db->role != 'admin' || $client_db->role != 'flower') {
+        if ($client_db->role != 'admin' && $client_db->role != 'flower') {
             return 0;
         }
 
