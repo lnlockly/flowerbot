@@ -225,8 +225,10 @@ class BotController extends Controller
         foreach ($product->flowers as $flower) {
             $flower_db = Flower::where('id', $flower['id'])->first();
             if ($flower_db == null) $check = false;
-            $flower_count = $flower['count'];
-            $flowers .= "-  $flower_db->name, кол-во: $flower_count\n";
+            else {
+                $flower_count = $flower['count'];
+                $flowers .= "-  $flower_db->name, кол-во: $flower_count\n";
+            }
         }
         if ($check) {
                 $text = "<a href='" . $product->img . "'>" . $product->name . "</a>" . "\n" .
