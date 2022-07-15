@@ -330,9 +330,15 @@ class BotController extends Controller
 
         $data = $callback_query['data'];
 
+
         if (strpos($data, 'successOrder') === 0) {
             $this->successOrder($bot, $shop, $client, $chat_id);
-        } elseif (strpos($data, 's') === 0) {
+
+        }
+        elseif (strpos($data, 'delFlower') === 0) {
+            $this->delFlower($bot, $client, $chat_id , ltrim($data, 'delFlower'));
+        }
+        elseif (strpos($data, 's') === 0) {
             $this->sendProducts($bot, $shop, $data, $chat_id);
         } elseif (strpos($data, 'p') === 0) {
             $this->sendProduct($bot, $shop, $data, $chat_id);
@@ -351,9 +357,7 @@ class BotController extends Controller
         } elseif (strpos($data, 'newOrder') === 0) {
             $this->newOrder($bot, $shop, $client, $chat_id);
         }
-        elseif (strpos($data, 'delFlower') === 0) {
-            $this->delFlower($bot, Client::where('username', $client['username'])->first(), $chat_id , ltrim($data, 'delFlower'));
-        }
+
 
     }
 
@@ -845,7 +849,8 @@ class BotController extends Controller
         ]);
     }
 
-    private function delFlower($bot, $client_db, $chat_id, $flower_id) {
+    private function delFlower($bot, $client, $chat_id, $flower_id) {
+        $client_db = Client::where('username', $client['username'])->first();
         if ($client_db->role != 'admin' || $client_db->role != 'flower') {
             return 0;
         }
