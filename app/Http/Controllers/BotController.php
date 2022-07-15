@@ -764,13 +764,6 @@ class BotController extends Controller
 
         $keyboard = $this->makeKeyboard($data);
 
-        $bot->sendMessage([
-            'chat_id' => $chat_id,
-            'parse_mode' => 'HTML',
-            'reply_markup' => $keyboard,
-            'text' => $text,
-        ]);
-
         foreach ($client->cart as $product) {
             Order::create([
                 'active' => 1,
@@ -783,7 +776,15 @@ class BotController extends Controller
             $product->delete();
 
         }
+        $bot->sendMessage([
+            'chat_id' => $chat_id,
+            'parse_mode' => 'HTML',
+            'reply_markup' => $keyboard,
+            'text' => $text,
+        ]);
 
+
+        return 0;
     }
 
     private function sendStatistic($bot, $client_db, $chat_id, $shop) {
