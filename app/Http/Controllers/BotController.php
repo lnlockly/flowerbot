@@ -804,13 +804,15 @@ class BotController extends Controller
         $text = "Статистика заказов: \n";
 
         foreach ($orders as $order) {
+            $client = $order->client;
+            $product = $order->product;
             $text .= "
             Id: $order->id \n
-            Имя, Телефон, Адрес: $order->client()->first_name  $order->client()->phone   $order->client()->address \n
-            Доставка: $order->client->delivery \n
-            Букет: $order->product->name \n
+            Имя, Телефон, Адрес: $client->first_name  $client->phone   $client->address \n
+            Доставка: $client->delivery \n
+            Букет: $product->name \n
             Кол-во: $order->amount \n
-            Цена (без учета доставки): $order->amount * $order->product->price";
+            Цена (без учета доставки): $order->amount * $product->price";
 
         }
 
