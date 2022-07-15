@@ -875,7 +875,7 @@ class BotController extends Controller
     {
         $users = Client::all();
 
-        $token = auth()->user()->current_shop->token;
+        $token = auth()->user()->current_shop->bot_token;
 
         $bot = new Api($token);
 

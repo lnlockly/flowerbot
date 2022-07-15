@@ -63,15 +63,12 @@ Route::middleware('if_shop')->group(function () {
 
 	Route::post('/bot/{token}/webhook', 'ShopController@bot')->name('shop.bot');
 
-	Route::get('/getAdmin', function() {
-		$user = User::find(auth()->user()->id);
-		$user->is_admin = true;
-		$user->save();
-		return redirect(route('admin.users'));
-	});
 });
 
 Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'is_admin'], function(){
+    Route::get('/', function() {
+        return redirect(route('statistic.users'));
+    });
     Route::get('/clients', function () {
         return view('shop.statistic.clients');
     })->name('statistic.users');
