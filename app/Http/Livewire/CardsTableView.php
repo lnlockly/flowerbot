@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Delivery;
+use App\Card;
 use Illuminate\Database\Eloquent\Builder;
 use LaravelViews\Views\TableView;
 
@@ -10,7 +10,7 @@ class CardsTableView extends TableView
 {
     public function repository(): Builder
     {
-        return Delivery::query()->where('shop_id', auth()->user()->current_shop->id);
+        return Card::query()->where('shop_id', auth()->user()->current_shop->id);
     }
     /**
      * Sets the headers of the table as you want to be displayed

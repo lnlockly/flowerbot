@@ -12,7 +12,7 @@ class CardController extends Controller
         $card->shop_id = auth()->user()->current_shop->id;
 
         $card->save();
-
+        notify()->success('Карта добавлена', '');
         return redirect()->back();
     }
 }

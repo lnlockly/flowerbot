@@ -13,7 +13,7 @@ class DeliveryController extends Controller
         $delivery->shop_id = auth()->user()->current_shop->id;
 
         $delivery->save();
-
+        notify()->success('Район добавлен', '');
         return redirect()->back();
     }
 }

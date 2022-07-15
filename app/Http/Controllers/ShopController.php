@@ -48,7 +48,7 @@ class ShopController extends Controller
         $shop->save();
         $user->update(['current_shop' => $shop->id]);
 
-        $telegram->setWebhook(['url' => 'https://chipbot.ru/'.$request->bot_token.'/webhook']);
+        $telegram->setWebhook(['url' => 'https://xn--b1arjw.xn--p1ai/'.$request->bot_token.'/webhook']);
 
         notify()->success('Магазин создан', '');
     	return redirect()->route('statistic.catalogs');

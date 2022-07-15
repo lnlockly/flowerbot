@@ -733,7 +733,6 @@ class BotController extends Controller
         $sum_all = 0;
         $products = "";
         $delivery = Delivery::where('name', $client->delivery)->first();
-        dd($delivery);
         foreach ($client->cart as $key => $cart) {
             $i = $key + 1;
             $product = $cart->product;
