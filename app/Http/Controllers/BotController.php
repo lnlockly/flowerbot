@@ -340,6 +340,9 @@ class BotController extends Controller
         elseif (strpos($data, 'delFlower') === 0) {
             $this->delFlower($bot, $client, $chat_id , ltrim($data, 'delFlower'));
         }
+        elseif ($data == 'home') {
+            $this->sendStartMessage($bot, $shop, $chat_id);
+        }
         elseif (strpos($data, 's') === 0) {
             $this->sendProducts($bot, $shop, $data, $chat_id);
         } elseif (strpos($data, 'p') === 0) {
@@ -436,7 +439,7 @@ class BotController extends Controller
 
         $data = [
             [Keyboard::inlineButton(['callback_data' => 'add' . $product->id, 'text' => 'Добавить в корзину'])],
-            ['Главное меню']
+            [Keyboard::inlineButton(['callback_data' => 'home', 'text' => 'Главное меню'])],
         ];
 
         $keyboard = $this->makeInlineKeyboard($data);
