@@ -87,7 +87,7 @@ class BotController extends Controller
         $reply_markup = Keyboard::make([
             'keyboard' => $data,
             'resize_keyboard' => true,
-            'one_time_keyboard' => false,
+            'one_time_keyboard' => true,
         ]);
 
         return $reply_markup;
@@ -852,8 +852,8 @@ class BotController extends Controller
             'chat_id' => $chat_id,
             'text' => 'Выберите цветок который хотите удалить:',
             'reply_markup' => $keyboard,
-        ]);
-    }
+            ]);
+      }
 
     private function delFlower($bot, $client, $chat_id, $flower_id) {
         $client_db = Client::where('username', $client['username'])->first();
