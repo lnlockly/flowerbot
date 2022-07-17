@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>ChipBot</title>
+  <title>FlowerBot</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="{{ asset('ti-icons/css/themify-icons.css') }}">
   <link rel="stylesheet" href="{{ asset('base/vendor.bundle.base.css') }}">
@@ -88,7 +88,6 @@
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
-  </div>
   <!-- container-scroller -->
     @laravelViewsScripts
     <x:notify-messages />
@@ -99,17 +98,6 @@
         align-items: flex-end;
       }
     </style>
-  <!-- plugins:js -->
-  <script src="vendors/base/vendor.bundle.base.js"></script>
-
-  <!-- inject:js -->
-  <script src="{{ asset('js/off-canvas.js') }}"></script>
-  <script src="{{ asset('js/hoverable-collapse.js') }}"></script>
-  <script src="{{ asset('js/template.js') }}"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="{{ asset('js/dashboard.js') }}"></script>
-  <!-- End custom js for this page-->
 </body>
 
 </html>
