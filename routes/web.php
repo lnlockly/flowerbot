@@ -67,7 +67,7 @@ Route::middleware('if_shop')->group(function () {
 
 Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'is_admin'], function(){
     Route::get('/', function() {
-        return redirect(route('statistic.users'));
+        return redirect(route('admin.users'));
     });
     Route::get('/clients', function () {
         return view('shop.statistic.clients');

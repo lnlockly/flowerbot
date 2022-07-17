@@ -213,7 +213,7 @@ class BotController extends Controller
         }
         $bot->sendMessage([
             'chat_id' => $chat_id,
-            'text' => 'Вариант доставки:',
+            'text' => 'Район доставки:',
             'reply_markup' => $reply_markup,
         ]);
     }
@@ -436,6 +436,7 @@ class BotController extends Controller
 
         $data = [
             [Keyboard::inlineButton(['callback_data' => 'add' . $product->id, 'text' => 'Добавить в корзину'])],
+            ['Главное меню']
         ];
 
         $keyboard = $this->makeInlineKeyboard($data);
