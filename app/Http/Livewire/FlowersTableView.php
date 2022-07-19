@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\FlowerDeleteAction;
 use LaravelViews\Views\TableView;
 use Illuminate\Database\Eloquent\Builder;
 use LaravelViews\Facades\UI;
@@ -44,5 +45,12 @@ class FlowersTableView extends TableView
     public function update(Flower $flower, $data)
     {
         $flower->update($data);
+    }
+
+    protected function bulkActions()
+    {
+        return [
+            new FlowerDeleteAction()
+        ];
     }
 }

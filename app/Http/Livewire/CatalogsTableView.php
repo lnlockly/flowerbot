@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Actions\CatalogDeleteAction;
 use App\Catalog;
 use Illuminate\Database\Eloquent\Builder;
 use LaravelViews\Facades\UI;
@@ -52,5 +53,12 @@ class CatalogsTableView extends TableView
     public function update(Catalog $catalog, $data)
     {
         $catalog->update($data);
+    }
+
+    protected function bulkActions()
+    {
+        return [
+            new CatalogDeleteAction(),
+        ];
     }
 }
