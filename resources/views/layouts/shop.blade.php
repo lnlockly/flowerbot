@@ -49,7 +49,6 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
-            <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('statistic.catalogs') }}">
                         <span class="menu-title">Мои букеты</span>
