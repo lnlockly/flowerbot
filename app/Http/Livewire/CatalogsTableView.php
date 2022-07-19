@@ -55,10 +55,5 @@ class CatalogsTableView extends TableView
         $catalog->update($data);
     }
 
-    protected function bulkActions()
-    {
-        return [
-            new CatalogDeleteAction(),
-        ];
-    }
+
 }
