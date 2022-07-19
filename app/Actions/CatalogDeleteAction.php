@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Catalog;
 use LaravelViews\Actions\Action;
 use LaravelViews\Views\View;
 
